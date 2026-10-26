@@ -1,0 +1,46 @@
+[
+  {
+    "telegram_id": 900000001,
+    "telegram_username": "demo_patient",
+    "name": "Jordan Demo",
+    "age": 34,
+    "complaint": "Demo intake for validating the assignment workflow.",
+    "status": "Active",
+    "assigned_psychiatrist_id": 1,
+    "created_at": "2026-01-15T09:00:00+00:00",
+    "assigned_at": "2026-10-25T18:02:01.548151+00:00"
+  },
+  {
+    "telegram_id": 5675868185,
+    "created_at": "2026-10-25T19:20:17.857559+00:00",
+    "telegram_username": "",
+    "name": "perez",
+    "age": 22,
+    "complaint": "i love you",
+    "status": "Active",
+    "assigned_psychiatrist_id": 2,
+    "assigned_at": "2026-10-25T19:30:00.705274+00:00"
+  },
+  {
+    "telegram_id": 8483348983,
+    "created_at": "2026-10-25T19:58:59.921019+00:00",
+    "telegram_username": "perezendale",
+    "name": "pz",
+    "age": 23,
+    "complaint": "iiiii",
+    "status": "Active",
+    "assigned_psychiatrist_id": 2,
+    "assigned_at": "2026-10-25T20:09:45.520888+00:00"
+  },
+  {
+    "telegram_id": 5690529117,
+    "created_at": "2026-10-25T20:17:31.269998+00:00",
+    "telegram_username": "RULE1212",
+    "name": "trauma",
+    "age": 20,
+    "complaint": "trauma",
+    "status": "Active",
+    "assigned_psychiatrist_id": 2,
+    "assigned_at": "2026-10-25T20:17:59.486088+00:00"
+  }
+]

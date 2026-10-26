@@ -1,0 +1,16 @@
+[
+  {
+    "psychiatrist_id": 1,
+    "username": "clinician",
+    "full_name": "Dr. Alex Morgan",
+    "field": "Adult psychiatry",
+    "status": "Active"
+  },
+  {
+    "psychiatrist_id": 2,
+    "username": "clinician2",
+    "full_name": "Dr. Sam Lee",
+    "field": "Anxiety and mood disorders",
+    "status": "Active"
+  }
+]

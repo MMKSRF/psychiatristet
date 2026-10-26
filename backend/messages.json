@@ -1,0 +1,90 @@
+[
+  {
+    "message_id": 1,
+    "telegram_id": 5675868185,
+    "psychiatrist_id": 2,
+    "sender_type": "psychiatrist",
+    "text": "Hello Perez! I am Dr. Sam Lee. I am here to support you.",
+    "timestamp": "2026-10-25T19:33:26.244132+00:00"
+  },
+  {
+    "message_id": 2,
+    "telegram_id": 5675868185,
+    "psychiatrist_id": 2,
+    "sender_type": "patient",
+    "text": "hello",
+    "timestamp": "2026-10-25T19:57:10.939712+00:00"
+  },
+  {
+    "message_id": 3,
+    "telegram_id": 8483348983,
+    "psychiatrist_id": 2,
+    "sender_type": "patient",
+    "text": "hello",
+    "timestamp": "2026-10-25T20:10:20.386031+00:00"
+  },
+  {
+    "message_id": 4,
+    "telegram_id": 8483348983,
+    "psychiatrist_id": 2,
+    "sender_type": "psychiatrist",
+    "text": "how are you my bro",
+    "timestamp": "2026-10-25T20:10:35.671824+00:00"
+  },
+  {
+    "message_id": 5,
+    "telegram_id": 5675868185,
+    "psychiatrist_id": 2,
+    "sender_type": "psychiatrist",
+    "text": "i love you",
+    "timestamp": "2026-10-25T20:10:51.521488+00:00"
+  },
+  {
+    "message_id": 6,
+    "telegram_id": 5675868185,
+    "psychiatrist_id": 2,
+    "sender_type": "patient",
+    "text": "i know",
+    "timestamp": "2026-10-25T20:11:21.914939+00:00"
+  },
+  {
+    "message_id": 7,
+    "telegram_id": 5675868185,
+    "psychiatrist_id": 2,
+    "sender_type": "psychiatrist",
+    "text": "yess",
+    "timestamp": "2026-10-25T20:11:27.054434+00:00"
+  },
+  {
+    "message_id": 8,
+    "telegram_id": 5690529117,
+    "psychiatrist_id": 2,
+    "sender_type": "psychiatrist",
+    "text": "really trauma",
+    "timestamp": "2026-10-25T20:18:19.478293+00:00"
+  },
+  {
+    "message_id": 9,
+    "telegram_id": 5690529117,
+    "psychiatrist_id": 2,
+    "sender_type": "psychiatrist",
+    "text": "😁",
+    "timestamp": "2026-10-25T20:18:51.634250+00:00"
+  },
+  {
+    "message_id": 10,
+    "telegram_id": 5690529117,
+    "psychiatrist_id": 2,
+    "sender_type": "psychiatrist",
+    "text": "and i hope is working",
+    "timestamp": "2026-10-25T20:19:13.688404+00:00"
+  },
+  {
+    "message_id": 11,
+    "telegram_id": 5690529117,
+    "psychiatrist_id": 2,
+    "sender_type": "patient",
+    "text": "👏",
+    "timestamp": "2026-10-25T20:20:22.647596+00:00"
+  }
+]
