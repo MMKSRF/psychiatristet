@@ -32,6 +32,40 @@ async def send_telegram_message(chat_id: int, text: str) -> dict[str, Any]:
         return data
 
 
+async def edit_telegram_message(chat_id: int, message_id: int, text: str) -> dict[str, Any]:
+    token = get_bot_token()
+    if not token:
+        raise RuntimeError("TELEGRAM_BOT_TOKEN is not configured")
+
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        response = await client.post(
+            f"https://api.telegram.org/bot{token}/editMessageText",
+            json={"chat_id": chat_id, "message_id": message_id, "text": text},
+        )
+        response.raise_for_status()
+        data = response.json()
+        if not data.get("ok"):
+            raise RuntimeError(f"Telegram editMessageText rejected: {data.get('description')}")
+        return data
+
+
+async def delete_telegram_message(chat_id: int, message_id: int) -> dict[str, Any]:
+    token = get_bot_token()
+    if not token:
+        raise RuntimeError("TELEGRAM_BOT_TOKEN is not configured")
+
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        response = await client.post(
+            f"https://api.telegram.org/bot{token}/deleteMessage",
+            json={"chat_id": chat_id, "message_id": message_id},
+        )
+        response.raise_for_status()
+        data = response.json()
+        if not data.get("ok"):
+            raise RuntimeError(f"Telegram deleteMessage rejected: {data.get('description')}")
+        return data
+
+
 async def get_webhook_info() -> dict[str, Any]:
     token = get_bot_token()
     if not token:

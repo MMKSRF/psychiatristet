@@ -108,6 +108,10 @@ async def telegram_webhook(
                         "sender_type": "patient",
                         "text": text[:4000],
                         "timestamp": datetime.now(timezone.utc).isoformat(),
+                        "telegram_message_id": message.get("message_id"),
+                        "edited_at": None,
+                        "deleted_at": None,
+                        "deleted_for_psychiatrist": False,
                     }
                 )
                 write_json("messages.json", messages)

@@ -4,6 +4,7 @@ import hashlib
 import hmac
 import json
 import os
+import secrets
 import time
 from dataclasses import dataclass
 from typing import Any
@@ -11,9 +12,12 @@ from typing import Any
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
+from backend.database import read_json
+
 
 _BEARER = HTTPBearer(auto_error=False)
 TOKEN_LIFETIME_SECONDS = 60 * 60 * 8
+PASSWORD_HASH_ITERATIONS = 600_000
 
 
 @dataclass(frozen=True)
@@ -21,6 +25,27 @@ class User:
     username: str
     role: str
     psychiatrist_id: int | None = None
+    must_change_password: bool = False
+
+
+def hash_password(password: str) -> str:
+    salt = secrets.token_bytes(16)
+    digest = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, PASSWORD_HASH_ITERATIONS)
+    return f"pbkdf2_sha256${PASSWORD_HASH_ITERATIONS}${_b64encode(salt)}${_b64encode(digest)}"
+
+
+def _verify_password(password: str, encoded: str) -> bool:
+    try:
+        algorithm, iterations_text, salt_text, digest_text = encoded.split("$")
+        iterations = int(iterations_text)
+        if algorithm != "pbkdf2_sha256" or iterations < 100_000 or iterations > 2_000_000:
+            return False
+        salt = _b64decode(salt_text)
+        expected = _b64decode(digest_text)
+        actual = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, iterations)
+        return hmac.compare_digest(actual, expected)
+    except (ValueError, TypeError, binascii.Error, UnicodeDecodeError):
+        return False
 
 
 def _b64encode(value: bytes) -> str:
@@ -69,6 +94,26 @@ def authenticate(username: str, password: str) -> User | None:
         if role not in {"Admin", "Psychiatrist"}:
             raise HTTPException(status_code=503, detail="Configured account has an unsupported role")
         return User(username, role, psychiatrist_id)
+
+    normalized_username = username.casefold()
+    for psychiatrist in read_json("psychiatrists.json"):
+        email = psychiatrist.get("email", psychiatrist.get("username"))
+        password_hash = psychiatrist.get("password_hash")
+        psychiatrist_id = psychiatrist.get("psychiatrist_id")
+        if not isinstance(email, str) or not hmac.compare_digest(normalized_username, email.casefold()):
+            continue
+        if psychiatrist.get("status") in {"Inactive", "Offline"}:
+            return None
+        if not isinstance(password_hash, str) or not _verify_password(password, password_hash):
+            return None
+        if not isinstance(psychiatrist_id, int):
+            raise HTTPException(status_code=503, detail="Psychiatrist account has an invalid ID")
+        return User(
+            username=email,
+            role="Psychiatrist",
+            psychiatrist_id=psychiatrist_id,
+            must_change_password=bool(psychiatrist.get("must_change_password", False)),
+        )
     return None
 
 
@@ -83,6 +128,8 @@ def create_access_token(user: User) -> str:
     }
     if user.psychiatrist_id is not None:
         payload["psychiatrist_id"] = user.psychiatrist_id
+    if user.must_change_password:
+        payload["must_change_password"] = True
     signing_input = f"{_b64encode(json.dumps(header, separators=(',', ':')).encode())}.{_b64encode(json.dumps(payload, separators=(',', ':')).encode())}"
     signature = hmac.new(_secret(), signing_input.encode("ascii"), hashlib.sha256).digest()
     return f"{signing_input}.{_b64encode(signature)}"
@@ -104,11 +151,14 @@ def _decode_access_token(token: str) -> User:
         username = payload.get("sub")
         role = payload.get("role")
         psychiatrist_id = payload.get("psychiatrist_id")
+        must_change_password = payload.get("must_change_password", False)
         if not isinstance(username, str) or role not in {"Admin", "Psychiatrist"}:
             raise ValueError("Invalid token claims")
         if role == "Psychiatrist" and not isinstance(psychiatrist_id, int):
             raise ValueError("Missing psychiatrist ID")
-        return User(username, role, psychiatrist_id)
+        if not isinstance(must_change_password, bool):
+            raise ValueError("Invalid password-change claim")
+        return User(username, role, psychiatrist_id, must_change_password)
     except HTTPException:
         raise
     except (
@@ -135,6 +185,8 @@ def require_role(*roles: str):
     def dependency(user: User = Depends(current_user)) -> User:
         if user.role not in roles:
             raise HTTPException(status_code=403, detail="Insufficient permissions")
+        if user.must_change_password:
+            raise HTTPException(status_code=403, detail="Change your initial password before continuing")
         return user
 
     return dependency

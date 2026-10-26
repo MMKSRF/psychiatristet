@@ -15,7 +15,7 @@ export function LoginPage() {
     mutationFn: async () => (await api.post("/api/auth/login", { username, password })).data,
     onSuccess: ({ access_token: token, user }) => {
       setSession(token, user);
-      navigate({ to: user.role === "Admin" ? "/admin" : "/psychiatrist/dashboard" });
+      navigate({ to: user.must_change_password ? "/change-password" : user.role === "Admin" ? "/admin" : "/psychiatrist/dashboard" });
     },
   });
   return (

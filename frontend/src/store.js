@@ -15,6 +15,7 @@ function readSession() {
         username: claims.sub,
         role: claims.role,
         psychiatrist_id: claims.psychiatrist_id ?? null,
+        must_change_password: claims.must_change_password === true,
       },
     };
   } catch {

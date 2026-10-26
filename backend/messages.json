@@ -5,7 +5,11 @@
     "psychiatrist_id": 2,
     "sender_type": "psychiatrist",
     "text": "Hello Perez! I am Dr. Sam Lee. I am here to support you.",
-    "timestamp": "2026-10-25T19:33:26.244132+00:00"
+    "timestamp": "2026-10-25T19:33:26.244132+00:00",
+    "telegram_message_id": null,
+    "edited_at": null,
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
   },
   {
     "message_id": 2,
@@ -13,7 +17,11 @@
     "psychiatrist_id": 2,
     "sender_type": "patient",
     "text": "hello",
-    "timestamp": "2026-10-25T19:57:10.939712+00:00"
+    "timestamp": "2026-10-25T19:57:10.939712+00:00",
+    "telegram_message_id": null,
+    "edited_at": null,
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
   },
   {
     "message_id": 3,
@@ -21,7 +29,11 @@
     "psychiatrist_id": 2,
     "sender_type": "patient",
     "text": "hello",
-    "timestamp": "2026-10-25T20:10:20.386031+00:00"
+    "timestamp": "2026-10-25T20:10:20.386031+00:00",
+    "telegram_message_id": null,
+    "edited_at": null,
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
   },
   {
     "message_id": 4,
@@ -29,7 +41,11 @@
     "psychiatrist_id": 2,
     "sender_type": "psychiatrist",
     "text": "how are you my bro",
-    "timestamp": "2026-10-25T20:10:35.671824+00:00"
+    "timestamp": "2026-10-25T20:10:35.671824+00:00",
+    "telegram_message_id": null,
+    "edited_at": null,
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
   },
   {
     "message_id": 5,
@@ -37,7 +53,11 @@
     "psychiatrist_id": 2,
     "sender_type": "psychiatrist",
     "text": "i love you",
-    "timestamp": "2026-10-25T20:10:51.521488+00:00"
+    "timestamp": "2026-10-25T20:10:51.521488+00:00",
+    "telegram_message_id": null,
+    "edited_at": null,
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
   },
   {
     "message_id": 6,
@@ -45,7 +65,11 @@
     "psychiatrist_id": 2,
     "sender_type": "patient",
     "text": "i know",
-    "timestamp": "2026-10-25T20:11:21.914939+00:00"
+    "timestamp": "2026-10-25T20:11:21.914939+00:00",
+    "telegram_message_id": null,
+    "edited_at": null,
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
   },
   {
     "message_id": 7,
@@ -53,7 +77,11 @@
     "psychiatrist_id": 2,
     "sender_type": "psychiatrist",
     "text": "yess",
-    "timestamp": "2026-10-25T20:11:27.054434+00:00"
+    "timestamp": "2026-10-25T20:11:27.054434+00:00",
+    "telegram_message_id": null,
+    "edited_at": null,
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
   },
   {
     "message_id": 8,
@@ -61,7 +89,11 @@
     "psychiatrist_id": 2,
     "sender_type": "psychiatrist",
     "text": "really trauma",
-    "timestamp": "2026-10-25T20:18:19.478293+00:00"
+    "timestamp": "2026-10-25T20:18:19.478293+00:00",
+    "telegram_message_id": null,
+    "edited_at": null,
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
   },
   {
     "message_id": 9,
@@ -69,7 +101,11 @@
     "psychiatrist_id": 2,
     "sender_type": "psychiatrist",
     "text": "😁",
-    "timestamp": "2026-10-25T20:18:51.634250+00:00"
+    "timestamp": "2026-10-25T20:18:51.634250+00:00",
+    "telegram_message_id": null,
+    "edited_at": null,
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
   },
   {
     "message_id": 10,
@@ -77,7 +113,11 @@
     "psychiatrist_id": 2,
     "sender_type": "psychiatrist",
     "text": "and i hope is working",
-    "timestamp": "2026-10-25T20:19:13.688404+00:00"
+    "timestamp": "2026-10-25T20:19:13.688404+00:00",
+    "telegram_message_id": null,
+    "edited_at": null,
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
   },
   {
     "message_id": 11,
@@ -85,6 +125,82 @@
     "psychiatrist_id": 2,
     "sender_type": "patient",
     "text": "👏",
-    "timestamp": "2026-10-25T20:20:22.647596+00:00"
+    "timestamp": "2026-10-25T20:20:22.647596+00:00",
+    "telegram_message_id": null,
+    "edited_at": null,
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
+  },
+  {
+    "message_id": 12,
+    "telegram_id": 8483348983,
+    "psychiatrist_id": 2,
+    "sender_type": "psychiatrist",
+    "text": "jj\nhello",
+    "timestamp": "2026-10-26T10:13:30.928068+00:00",
+    "telegram_message_id": 92,
+    "edited_at": "2026-10-26T11:58:58.080614+00:00",
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
+  },
+  {
+    "message_id": 13,
+    "telegram_id": 5675868185,
+    "psychiatrist_id": 2,
+    "sender_type": "psychiatrist",
+    "text": "why",
+    "timestamp": "2026-10-26T10:18:46.864886+00:00",
+    "telegram_message_id": 93,
+    "edited_at": null,
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
+  },
+  {
+    "message_id": 14,
+    "telegram_id": 5675868185,
+    "psychiatrist_id": 2,
+    "sender_type": "psychiatrist",
+    "text": "",
+    "timestamp": "2026-10-26T10:57:40.768495+00:00",
+    "telegram_message_id": 94,
+    "edited_at": null,
+    "deleted_at": "2026-10-26T11:16:08.050658+00:00",
+    "deleted_for_psychiatrist": false
+  },
+  {
+    "message_id": 15,
+    "telegram_id": 5675868185,
+    "psychiatrist_id": 2,
+    "sender_type": "psychiatrist",
+    "text": "helloedhvidosnv",
+    "timestamp": "2026-10-26T11:16:58.700427+00:00",
+    "telegram_message_id": 95,
+    "edited_at": "2026-10-26T11:24:13.059127+00:00",
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
+  },
+  {
+    "message_id": 16,
+    "telegram_id": 5675868185,
+    "psychiatrist_id": 2,
+    "sender_type": "patient",
+    "text": "Hilo",
+    "timestamp": "2026-10-26T11:17:43.358366+00:00",
+    "telegram_message_id": 96,
+    "edited_at": null,
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
+  },
+  {
+    "message_id": 17,
+    "telegram_id": 5675868185,
+    "psychiatrist_id": 2,
+    "sender_type": "psychiatrist",
+    "text": "hjjj",
+    "timestamp": "2026-10-26T11:41:17.076668+00:00",
+    "telegram_message_id": 97,
+    "edited_at": "2026-10-26T11:58:26.565839+00:00",
+    "deleted_at": null,
+    "deleted_for_psychiatrist": false
   }
 ]

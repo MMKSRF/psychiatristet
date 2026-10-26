@@ -40,10 +40,22 @@ function Shell() {
 
 function signedIn() {
   if (!useSession.getState().user) throw redirect({ to: "/login" });
+  const user = useSession.getState().user;
+  if (user.must_change_password) throw redirect({ to: "/change-password" });
 }
 
 const rootRoute = createRootRoute({ component: Shell });
 const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: "/login", component: lazyRouteComponent(() => import("./pages/LoginPage"), "LoginPage") });
+const changePasswordRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/change-password",
+  beforeLoad: () => {
+    const user = useSession.getState().user;
+    if (!user) throw redirect({ to: "/login" });
+    if (!user.must_change_password || user.role !== "Psychiatrist") throw redirect({ to: "/psychiatrist/dashboard" });
+  },
+  component: lazyRouteComponent(() => import("./pages/ChangePasswordPage"), "ChangePasswordPage"),
+});
 const adminRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/admin",
@@ -62,15 +74,21 @@ const chatRoute = createRoute({
   beforeLoad: () => { signedIn(); if (useSession.getState().user?.role !== "Psychiatrist") throw redirect({ to: "/admin" }); },
   component: lazyRouteComponent(() => import("./pages/ChatPage"), "ChatPage"),
 });
+const notesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/psychiatrist/notes/$patientId",
+  beforeLoad: () => { signedIn(); if (useSession.getState().user?.role !== "Psychiatrist") throw redirect({ to: "/admin" }); },
+  component: lazyRouteComponent(() => import("./pages/PatientNotesPage"), "PatientNotesPage"),
+});
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
   beforeLoad: () => {
     const user = useSession.getState().user;
-    throw redirect({ to: !user ? "/login" : user.role === "Admin" ? "/admin" : "/psychiatrist/dashboard" });
+    throw redirect({ to: !user ? "/login" : user.must_change_password ? "/change-password" : user.role === "Admin" ? "/admin" : "/psychiatrist/dashboard" });
   },
 });
-const routeTree = rootRoute.addChildren([indexRoute, loginRoute, adminRoute, psychiatristRoute, chatRoute]);
+const routeTree = rootRoute.addChildren([indexRoute, loginRoute, changePasswordRoute, adminRoute, psychiatristRoute, chatRoute, notesRoute]);
 const router = createRouter({ routeTree });
 
 window.addEventListener("carebridge:unauthorized", () => {

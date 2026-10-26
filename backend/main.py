@@ -21,7 +21,7 @@ logger = logging.getLogger("backend_main")
 
 
 def initialize_data_files() -> None:
-    for filename in ("patients.json", "psychiatrists.json", "messages.json"):
+    for filename in ("patients.json", "psychiatrists.json", "messages.json", "patient_notes.json"):
         path = database.DATA_DIR / filename
         if not path.exists():
             database.write_json(filename, [])
@@ -74,10 +74,10 @@ origins = [
 ]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=origins if origins else ["*"],
     allow_credentials=True,
-    allow_methods=["GET", "POST"],
-    allow_headers=["Authorization", "Content-Type", "X-Telegram-Bot-Api-Secret-Token"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(auth.router)

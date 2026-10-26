@@ -55,13 +55,11 @@ npm run dev
 
 ---
 
-## Demo Accounts & Logins
+## Accounts
 
-| Role | Username | Password | Notes |
-|---|---|---|---|
-| **Admin** | `admin` | `hYetbUdypvojTIMdosA7mxHq` | Reviews pending intakes, assigns cases to clinicians |
-| **Psychiatrist 1** | `clinician` | `eegdZKsvX6ldqvDsm8cxqzIe` | Dr. Alex Morgan (Adult psychiatry) |
-| **Psychiatrist 2** | `clinician2` | `samLeePassword123` | Dr. Sam Lee (Anxiety and mood disorders) |
+Admin and existing development accounts are configured through `AUTH_USERS_JSON` in the local `.env`; do not put real passwords in this README or commit them. Admins can create psychiatrist accounts in the Psychiatrists section of the dashboard. A new psychiatrist signs in with their email and initial password, then must set a new password before accessing clinical features.
+
+Psychiatrist passwords created by the admin panel are stored as salted PBKDF2 hashes. Use a separate, secure channel to share initial passwords.
 
 ---
 
@@ -128,10 +126,23 @@ This automatically:
 
 - `POST /api/auth/login`: Authenticate as Admin or Psychiatrist; returns JWT.
 - `GET /api/auth/me`: Get current authenticated user session.
+- `POST /api/auth/change-password`: Set a new password for a newly created psychiatrist account.
 - `POST /api/telegram-webhook`: Telegram update receiver (webhook / internal poller).
 - `GET /api/admin/pending-patients`: List all patients with `status == "Pending_Assignment"`.
 - `GET /api/admin/psychiatrists`: List all psychiatrists and availability status.
+- `POST /api/admin/psychiatrists`: Create a psychiatrist account with a required initial password.
+- `PATCH /api/admin/psychiatrists/{psychiatrist_id}/capacity`: Update a clinician's patient limit.
+- `GET /api/admin/psychiatrists/{psychiatrist_id}/patients`: Read-only list of a psychiatrist's active patients.
+- `GET /api/admin/interaction-logs`: Read-only message counts and latest activity timestamps; message bodies are not exposed.
 - `POST /api/admin/assign-case`: Assigns patient to psychiatrist, sets status to `Active`, and notifies patient via Telegram.
 - `GET /api/psychiatrist/{psychiatrist_id}/patients`: List active cases assigned to the clinician.
 - `GET /api/chat/{telegram_id}/{psychiatrist_id}`: Chronological 2-way chat history.
 - `POST /api/chat/send`: Sends clinician message to patient's Telegram and records to database.
+- `GET/POST /api/chat/{telegram_id}/{psychiatrist_id}/notes`: List or create private clinician notes.
+- `PATCH/DELETE /api/chat/{telegram_id}/{psychiatrist_id}/notes/{note_id}`: Update or delete a private clinician note.
+- `PATCH /api/chat/{telegram_id}/{psychiatrist_id}/{message_id}`: Edit a clinician-authored Telegram message.
+- `DELETE /api/chat/{telegram_id}/{psychiatrist_id}/{message_id}?scope=self|everyone`: Hide a clinician message locally or delete it for both chat participants.
+
+Patient assignment is rejected when the psychiatrist has reached their individual capacity. The admin interaction log is aggregate and read-only; admins cannot edit or delete chat messages through this view.
+
+The psychiatrist chat UI places private notes beside the conversation and also offers a Notes action from the patient list. Notes are scoped to the authenticated assigned psychiatrist and are never included in admin endpoints. Telegram bot messages can only be edited/deleted remotely when Telegram permits it (for example, Telegram restricts message deletion by age); legacy messages without a stored Telegram message ID can only be hidden from the clinician's own view. Existing message records are enriched with optional `telegram_message_id`, `edited_at`, `deleted_at`, and `deleted_for_psychiatrist` fields; `backend/patient_notes.json` starts empty to avoid adding fabricated notes to existing patient records.
