@@ -36,9 +36,9 @@ A complete, production-ready MVP connecting patients via a **Telegram Bot** (`@p
 
 ### Local Development (Host Machine)
 ```bash
-python run.py
+python runserver.py
 ```
-> Runs locally on **`http://localhost:8000`** with live reload and polling.
+> Runs the backend on **`http://localhost:8000`** and the React frontend on **`http://localhost:5173`** with live reload and polling.
 
 ---
 
@@ -53,19 +53,23 @@ python runserver.py
 # or: python serverrun.py
 ```
 > **What this does:**
-> - Binds to **`0.0.0.0:8000`** to accept incoming connections from phones and external networks.
+> - Starts the React/Vite frontend on **`0.0.0.0:5173`** and the FastAPI backend on **`0.0.0.0:8000`**.
+> - Opens the dashboard at **`http://204.44.66.142:5173`** and login at **`http://204.44.66.142:5173/login`**.
+> - Proxies frontend `/api` requests to the backend so the two services communicate without browser CORS issues.
 > - Connects to **`fulldb.db`** (lightweight SQLite WAL mode optimized for 1GB RAM).
-> - Serves the complete clinical and admin dashboard UI directly to phones and browsers at **`http://204.44.66.142:8000`** without needing a separate Node.js process!
 > - Automatically receives Telegram bot messages via embedded background worker.
+>
+> Node.js/npm and frontend dependencies are required. If dependencies are not installed yet, run `cd frontend && npm install`.
 
 ### 2. Test from Your Mobile Phone
-1. Open Chrome or Safari on your phone.
-2. Visit: **`http://204.44.66.142:8000`** (or `/login`).
-3. Log in with admin or clinician credentials to manage patients, review bilingual intake forms, and chat live with patients on Telegram!
+1. Allow inbound TCP ports **5173** (frontend) and **8000** (backend/API) in the server firewall and cloud firewall.
+2. Open Chrome or Safari on your phone.
+3. Visit: **`http://204.44.66.142:5173`** (or `/login`).
+4. Log in with admin or clinician credentials to manage patients, review bilingual intake forms, and chat live with patients on Telegram!
 
 > [!TIP]
-> If your phone cannot connect, verify your server's firewall allows port 8000:
-> `sudo ufw allow 8000/tcp`
+> If your phone cannot connect, verify your server's firewall allows both ports:
+> `sudo ufw allow 5173/tcp && sudo ufw allow 8000/tcp`
 
 ---
 
@@ -82,7 +86,7 @@ Psychiatrist passwords created by the admin panel are stored as salted PBKDF2 ha
 You can run the bot in either **Polling mode** (default, no public URL needed) or **Webhook mode** (for production or public URLs).
 
 ### Option A: Automatic Polling (Default for Local Dev)
-Simply running `python run.py` automatically handles polling in the background without needing tunnels or extra terminal tabs.
+Running `python runserver.py` automatically handles polling in the background without needing tunnels or extra terminal tabs.
 
 ### Option B: Cloudflare Quick Webhook (One-Command Tunnel)
 If you want to use Telegram Webhooks locally without deploying to a cloud server:
