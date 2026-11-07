@@ -57,7 +57,8 @@
     "telegram_message_id": null,
     "edited_at": null,
     "deleted_at": null,
-    "deleted_for_psychiatrist": false
+    "deleted_for_psychiatrist": true,
+    "deleted_for_psychiatrist_at": "2026-10-26T12:54:52.970630+00:00"
   },
   {
     "message_id": 6,
