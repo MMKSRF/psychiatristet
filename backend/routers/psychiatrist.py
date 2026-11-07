@@ -2,7 +2,7 @@ from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from backend.database import read_json
+from backend.database import get_patients
 from backend.security import User, require_role
 
 
@@ -16,9 +16,4 @@ def assigned_patients(
 ) -> list[dict[str, Any]]:
     if psychiatrist_id != user.psychiatrist_id:
         raise HTTPException(status_code=403, detail="You can only view your own assigned patients")
-    return [
-        patient
-        for patient in read_json("patients.json")
-        if patient.get("assigned_psychiatrist_id") == psychiatrist_id
-        and patient.get("status") == "Active"
-    ]
+    return get_patients(status="Active", assigned_psychiatrist_id=psychiatrist_id)

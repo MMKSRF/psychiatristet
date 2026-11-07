@@ -63,7 +63,7 @@ async def run_polling_loop(asgi_app: Any = None) -> None:
                     "getUpdates",
                     offset=offset,
                     timeout=POLL_TIMEOUT_SECONDS,
-                    allowed_updates=["message"],
+                    allowed_updates=["message", "callback_query"],
                 )
 
                 for update in updates.get("result", []):
@@ -88,12 +88,17 @@ async def run_polling_loop(asgi_app: Any = None) -> None:
                     # Backward compatibility for any remaining sendMessage webhook reply
                     action = response.json()
                     if isinstance(action, dict) and action.get("method") == "sendMessage":
+                        msg_payload: dict[str, Any] = {
+                            "chat_id": action["chat_id"],
+                            "text": action["text"],
+                        }
+                        if "reply_markup" in action:
+                            msg_payload["reply_markup"] = action["reply_markup"]
                         await _telegram_request(
                             tg_client,
                             token,
                             "sendMessage",
-                            chat_id=action["chat_id"],
-                            text=action["text"],
+                            **msg_payload,
                         )
 
             except asyncio.CancelledError:

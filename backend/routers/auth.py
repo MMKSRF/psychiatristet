@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from backend.database import read_json, transaction, write_json
+from backend.database import get_psychiatrist, update_psychiatrist_password
 from backend.schemas import ChangePasswordRequest, LoginRequest, TokenResponse
 from backend.security import User, authenticate, create_access_token, current_user, hash_password
 
@@ -41,19 +41,14 @@ def change_password(
 ) -> TokenResponse:
     if user.role != "Psychiatrist" or not user.must_change_password or user.psychiatrist_id is None:
         raise HTTPException(status_code=403, detail="Password change is not required for this account")
-    with transaction():
-        psychiatrists = read_json("psychiatrists.json")
-        psychiatrist = next(
-            (item for item in psychiatrists if item.get("psychiatrist_id") == user.psychiatrist_id),
-            None,
-        )
-        if psychiatrist is None:
-            raise HTTPException(status_code=404, detail="Psychiatrist account not found")
-        if not psychiatrist.get("must_change_password", False):
-            raise HTTPException(status_code=409, detail="Initial password has already been changed")
-        psychiatrist["password_hash"] = hash_password(request.new_password)
-        psychiatrist["must_change_password"] = False
-        write_json("psychiatrists.json", psychiatrists)
+    
+    psychiatrist = get_psychiatrist(user.psychiatrist_id)
+    if psychiatrist is None:
+        raise HTTPException(status_code=404, detail="Psychiatrist account not found")
+    if not psychiatrist.get("must_change_password", False):
+        raise HTTPException(status_code=409, detail="Initial password has already been changed")
+    
+    update_psychiatrist_password(user.psychiatrist_id, hash_password(request.new_password))
 
     updated_user = User(user.username, user.role, user.psychiatrist_id)
     return TokenResponse(

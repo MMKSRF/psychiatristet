@@ -12,7 +12,7 @@ from typing import Any
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-from backend.database import read_json
+from backend.database import get_psychiatrists
 
 
 _BEARER = HTTPBearer(auto_error=False)
@@ -96,7 +96,7 @@ def authenticate(username: str, password: str) -> User | None:
         return User(username, role, psychiatrist_id)
 
     normalized_username = username.casefold()
-    for psychiatrist in read_json("psychiatrists.json"):
+    for psychiatrist in get_psychiatrists():
         email = psychiatrist.get("email", psychiatrist.get("username"))
         password_hash = psychiatrist.get("password_hash")
         psychiatrist_id = psychiatrist.get("psychiatrist_id")

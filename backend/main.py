@@ -21,10 +21,8 @@ logger = logging.getLogger("backend_main")
 
 
 def initialize_data_files() -> None:
-    for filename in ("patients.json", "psychiatrists.json", "messages.json", "patient_notes.json"):
-        path = database.DATA_DIR / filename
-        if not path.exists():
-            database.write_json(filename, [])
+    # Initialize SQLite database (fulldb.db) with WAL mode and migrate initial data
+    database.init_db()
 
 
 @asynccontextmanager

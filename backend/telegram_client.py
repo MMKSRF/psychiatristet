@@ -15,21 +15,53 @@ def get_webhook_secret() -> str:
     return os.getenv("TELEGRAM_WEBHOOK_SECRET", "").strip()
 
 
-async def send_telegram_message(chat_id: int, text: str) -> dict[str, Any]:
+async def send_telegram_message(
+    chat_id: int,
+    text: str,
+    reply_markup: dict[str, Any] | None = None,
+    parse_mode: str | None = None,
+) -> dict[str, Any]:
     token = get_bot_token()
     if not token:
         raise RuntimeError("TELEGRAM_BOT_TOKEN is not configured")
 
+    payload: dict[str, Any] = {"chat_id": chat_id, "text": text}
+    if reply_markup is not None:
+        payload["reply_markup"] = reply_markup
+    if parse_mode is not None:
+        payload["parse_mode"] = parse_mode
+
     async with httpx.AsyncClient(timeout=15.0) as client:
         response = await client.post(
             f"https://api.telegram.org/bot{token}/sendMessage",
-            json={"chat_id": chat_id, "text": text},
+            json=payload,
         )
         response.raise_for_status()
         data = response.json()
         if not data.get("ok"):
             raise RuntimeError(f"Telegram sendMessage rejected: {data.get('description')}")
         return data
+
+
+async def answer_callback_query(callback_query_id: str, text: str | None = None) -> dict[str, Any]:
+    token = get_bot_token()
+    if not token:
+        return {"ok": False}
+
+    payload: dict[str, Any] = {"callback_query_id": callback_query_id}
+    if text:
+        payload["text"] = text
+
+    async with httpx.AsyncClient(timeout=10.0) as client:
+        try:
+            response = await client.post(
+                f"https://api.telegram.org/bot{token}/answerCallbackQuery",
+                json=payload,
+            )
+            response.raise_for_status()
+            return response.json()
+        except Exception:
+            return {"ok": False}
 
 
 async def edit_telegram_message(chat_id: int, message_id: int, text: str) -> dict[str, Any]:
@@ -84,7 +116,7 @@ async def set_webhook(url: str, secret_token: str | None = None) -> dict[str, An
 
     payload: dict[str, Any] = {
         "url": url,
-        "allowed_updates": ["message"],
+        "allowed_updates": ["message", "callback_query"],
     }
     secret = secret_token or get_webhook_secret()
     if secret:
