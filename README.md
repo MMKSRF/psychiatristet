@@ -32,26 +32,40 @@ A complete, production-ready MVP connecting patients via a **Telegram Bot** (`@p
 
 ---
 
-## Quick Start (1 Command)
+## Quick Start
 
-### 1. Start Backend & Bot
-From the project root:
+### Local Development (Host Machine)
 ```bash
-./venv/bin/python run.py
+python run.py
 ```
-> **What happens automatically:**
-> - Loads `.env`
-> - Initializes relational JSON tables (`patients.json`, `psychiatrists.json`, `messages.json`)
-> - Connects to Telegram and automatically begins receiving patient messages and intake!
-> - Backend runs on **`http://localhost:8000`** (Swagger docs at `/docs`).
+> Runs locally on **`http://localhost:8000`** with live reload and polling.
 
-### 2. Start Frontend
-In a separate terminal:
+---
+
+## Server Deployment & Mobile Phone Testing (`204.44.66.142`)
+
+When testing on your VPS server (`204.44.66.142`) and accessing via phone over mobile data or external network:
+
+### 1. Run the Server
+From the project root on your server:
 ```bash
-cd frontend
-npm run dev
+python runserver.py
+# or: python serverrun.py
 ```
-> Opens at **`http://localhost:5173`**.
+> **What this does:**
+> - Binds to **`0.0.0.0:8000`** to accept incoming connections from phones and external networks.
+> - Connects to **`fulldb.db`** (lightweight SQLite WAL mode optimized for 1GB RAM).
+> - Serves the complete clinical and admin dashboard UI directly to phones and browsers at **`http://204.44.66.142:8000`** without needing a separate Node.js process!
+> - Automatically receives Telegram bot messages via embedded background worker.
+
+### 2. Test from Your Mobile Phone
+1. Open Chrome or Safari on your phone.
+2. Visit: **`http://204.44.66.142:8000`** (or `/login`).
+3. Log in with admin or clinician credentials to manage patients, review bilingual intake forms, and chat live with patients on Telegram!
+
+> [!TIP]
+> If your phone cannot connect, verify your server's firewall allows port 8000:
+> `sudo ufw allow 8000/tcp`
 
 ---
 

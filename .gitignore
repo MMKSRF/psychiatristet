@@ -3,5 +3,5 @@
 # venv/
 frontend/node_modules/
 frontend/dist/
-# __pycache__/
-# *.py[cod]
+__pycache__/
+*.py[cod]

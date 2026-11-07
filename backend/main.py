@@ -6,8 +6,10 @@ from pathlib import Path
 from typing import AsyncGenerator
 
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 # Ensure .env is loaded
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
@@ -67,12 +69,15 @@ app = FastAPI(
 
 origins = [
     origin.strip()
-    for origin in os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
+    for origin in os.getenv(
+        "CORS_ORIGINS",
+        "http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,http://204.44.66.142:5173,http://204.44.66.142:8000,http://204.44.66.142",
+    ).split(",")
     if origin.strip()
 ]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins if origins else ["*"],
+    allow_origins=origins if ("*" not in origins) else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -84,7 +89,21 @@ app.include_router(psychiatrist.router)
 app.include_router(chat.router)
 app.include_router(telegram.router)
 
+# Mount frontend/dist if available so the full web app can be used on phone without node/npm
+frontend_dist = Path(__file__).resolve().parent.parent / "frontend" / "dist"
+if frontend_dist.exists() and (frontend_dist / "index.html").exists():
+    if (frontend_dist / "assets").exists():
+        app.mount("/assets", StaticFiles(directory=str(frontend_dist / "assets")), name="assets")
 
-@app.get("/")
-def read_root() -> dict[str, str]:
-    return {"status": "ok", "service": "Telehealth Bridge MVP"}
+    @app.get("/{full_path:path}")
+    def serve_frontend(full_path: str):
+        if full_path.startswith(("api/", "docs", "openapi.json", "redoc")):
+            raise HTTPException(status_code=404, detail="Not Found")
+        target_file = frontend_dist / full_path
+        if target_file.is_file():
+            return FileResponse(target_file)
+        return FileResponse(frontend_dist / "index.html")
+else:
+    @app.get("/")
+    def read_root() -> dict[str, str]:
+        return {"status": "ok", "service": "Telehealth Bridge MVP"}
