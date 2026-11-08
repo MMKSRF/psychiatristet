@@ -77,7 +77,7 @@ python runserver.py
 
 Admin and existing development accounts are configured through `AUTH_USERS_JSON` in the local `.env`; do not put real passwords in this README or commit them. Admins can create psychiatrist accounts in the Psychiatrists section of the dashboard. A new psychiatrist signs in with their email and initial password, then must set a new password before accessing clinical features.
 
-Psychiatrist passwords created by the admin panel are stored as salted PBKDF2 hashes. Use a separate, secure channel to share initial passwords.
+Psychiatrists created by the admin panel can sign in with their email address or full name and the initial password set by the admin. Passwords are stored as salted PBKDF2 hashes, so a forgotten initial password cannot be recovered; set a new one through a separate secure channel.
 
 ---
 

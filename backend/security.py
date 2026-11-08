@@ -96,25 +96,38 @@ def authenticate(username: str, password: str) -> User | None:
             raise HTTPException(status_code=503, detail="Configured account has an unsupported role")
         return User(expected_username, role, psychiatrist_id)
 
+    matching_psychiatrists = []
     for psychiatrist in get_psychiatrists():
-        email = psychiatrist.get("email", psychiatrist.get("username"))
-        password_hash = psychiatrist.get("password_hash")
-        psychiatrist_id = psychiatrist.get("psychiatrist_id")
-        if not isinstance(email, str) or not hmac.compare_digest(normalized_username, email.casefold()):
-            continue
-        if psychiatrist.get("status") in {"Inactive", "Offline"}:
-            return None
-        if not isinstance(password_hash, str) or not _verify_password(password, password_hash):
-            return None
-        if not isinstance(psychiatrist_id, int):
-            raise HTTPException(status_code=503, detail="Psychiatrist account has an invalid ID")
-        return User(
-            username=email,
-            role="Psychiatrist",
-            psychiatrist_id=psychiatrist_id,
-            must_change_password=bool(psychiatrist.get("must_change_password", False)),
+        aliases = (
+            psychiatrist.get("email"),
+            psychiatrist.get("username"),
+            psychiatrist.get("full_name"),
         )
-    return None
+        if any(
+            isinstance(alias, str) and hmac.compare_digest(normalized_username, alias.strip().casefold())
+            for alias in aliases
+        ):
+            matching_psychiatrists.append(psychiatrist)
+
+    if len(matching_psychiatrists) != 1:
+        return None
+
+    psychiatrist = matching_psychiatrists[0]
+    email = psychiatrist.get("email", psychiatrist.get("username"))
+    password_hash = psychiatrist.get("password_hash")
+    psychiatrist_id = psychiatrist.get("psychiatrist_id")
+    if psychiatrist.get("status") in {"Inactive", "Offline"}:
+        return None
+    if not isinstance(password_hash, str) or not _verify_password(password, password_hash):
+        return None
+    if not isinstance(email, str) or not isinstance(psychiatrist_id, int):
+        raise HTTPException(status_code=503, detail="Psychiatrist account has an invalid identity")
+    return User(
+        username=email,
+        role="Psychiatrist",
+        psychiatrist_id=psychiatrist_id,
+        must_change_password=bool(psychiatrist.get("must_change_password", False)),
+    )
 
 
 def create_access_token(user: User) -> str:

@@ -24,9 +24,9 @@ export function LoginPage() {
         <div className="mb-8 grid h-12 w-12 place-items-center rounded-2xl bg-teal-50 text-teal-700 dark:bg-teal-950 dark:text-teal-300"><HeartHandshake size={24} /></div>
         <p className="mb-2 text-xs font-bold uppercase tracking-[.16em] text-teal-700 dark:text-teal-300">Secure sign in</p>
         <h1 className="mb-2 text-3xl font-bold tracking-tight">Welcome back</h1>
-        <p className="mb-8 text-sm leading-6 text-muted dark:text-slate-400">Sign in with the account configured for your clinical role.</p>
+        <p className="mb-8 text-sm leading-6 text-muted dark:text-slate-400">Use your configured username, or a psychiatrist’s email or full name, with the password set for that account.</p>
         <form className="space-y-4" onSubmit={(event) => { event.preventDefault(); login.mutate(); }}>
-          <label className="block space-y-2 text-sm font-medium">Username<Input autoComplete="username" autoCapitalize="none" autoCorrect="off" spellCheck={false} value={username} onChange={(event) => setUsername(event.target.value)} required /></label>
+          <label className="block space-y-2 text-sm font-medium">Username, email, or psychiatrist name<Input autoComplete="username" autoCapitalize="none" autoCorrect="off" spellCheck={false} value={username} onChange={(event) => setUsername(event.target.value)} required /></label>
           <label className="block space-y-2 text-sm font-medium">Password<Input type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required /></label>
           {login.isError && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">{login.error.response?.data?.detail || "Could not sign in. Check the server and credentials."}</p>}
           <Button type="submit" disabled={login.isPending} className="w-full py-3"><LockKeyhole size={16} />{login.isPending ? "Signing in…" : "Sign in"}</Button>
