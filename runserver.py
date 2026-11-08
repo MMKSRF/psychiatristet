@@ -112,8 +112,12 @@ def main() -> None:
     cors_origins.update(
         {
             f"http://{args.ip}:{args.frontend_port}",
+            f"http://{args.ip}:{args.port}",
+            f"http://{args.ip}",
             f"http://localhost:{args.frontend_port}",
+            f"http://localhost:{args.port}",
             f"http://127.0.0.1:{args.frontend_port}",
+            f"http://127.0.0.1:{args.port}",
         }
     )
     os.environ["CORS_ORIGINS"] = ",".join(sorted(cors_origins))

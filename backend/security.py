@@ -64,6 +64,7 @@ def _secret() -> bytes:
 
 
 def authenticate(username: str, password: str) -> User | None:
+    normalized_username = username.strip().casefold()
     raw_users = os.getenv("AUTH_USERS_JSON", "[]")
     try:
         users: Any = json.loads(raw_users)
@@ -79,7 +80,7 @@ def authenticate(username: str, password: str) -> User | None:
         role = account.get("role")
         if not isinstance(expected_username, str) or not isinstance(expected_password, str):
             continue
-        if not hmac.compare_digest(username, expected_username):
+        if not hmac.compare_digest(normalized_username, expected_username.strip().casefold()):
             continue
         if len(expected_password) < 12:
             raise HTTPException(
@@ -93,9 +94,8 @@ def authenticate(username: str, password: str) -> User | None:
             raise HTTPException(status_code=503, detail="Psychiatrist account needs a numeric psychiatrist_id")
         if role not in {"Admin", "Psychiatrist"}:
             raise HTTPException(status_code=503, detail="Configured account has an unsupported role")
-        return User(username, role, psychiatrist_id)
+        return User(expected_username, role, psychiatrist_id)
 
-    normalized_username = username.casefold()
     for psychiatrist in get_psychiatrists():
         email = psychiatrist.get("email", psychiatrist.get("username"))
         password_hash = psychiatrist.get("password_hash")

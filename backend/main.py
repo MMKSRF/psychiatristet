@@ -11,8 +11,20 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-# Ensure .env is loaded
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+# Ensure .env is loaded — try multiple candidate locations so it works
+# regardless of CWD (local, server, uvicorn --app-dir, etc.)
+def _load_env() -> None:
+    candidates = [
+        Path(__file__).resolve().parent.parent / ".env",  # <project_root>/.env  (normal)
+        Path.cwd() / ".env",                               # CWD/.env             (server)
+        Path(__file__).resolve().parent / ".env",          # backend/.env         (fallback)
+    ]
+    for _candidate in candidates:
+        if _candidate.is_file():
+            load_dotenv(_candidate, override=False)
+            break
+
+_load_env()
 
 from backend import database
 from backend.polling import run_polling_loop
