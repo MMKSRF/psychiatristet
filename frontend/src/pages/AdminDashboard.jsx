@@ -6,7 +6,7 @@ import { api } from "../api";
 import { useLang } from "../i18n";
 import { Button, Card, Input, Status } from "../ui";
 
-const colors = ["#3d9386", "#e9b872", "#8091a0"];
+const colors = ["#650217", "#ffbe56", "#8d3348"];
 
 export function AdminDashboard() {
   const [section, setSection] = useState("assignments");

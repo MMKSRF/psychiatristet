@@ -99,7 +99,7 @@ export function PsychiatristDashboard() {
                 <XAxis dataKey="name" tickLine={false} axisLine={false} />
                 <YAxis allowDecimals={false} tickLine={false} axisLine={false} />
                 <Tooltip />
-                <Bar dataKey="patients" fill="#3d9386" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="patients" fill="#650217" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
