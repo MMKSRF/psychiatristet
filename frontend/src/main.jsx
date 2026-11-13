@@ -4,9 +4,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRootRoute, createRoute, createRouter, lazyRouteComponent, Outlet, redirect, RouterProvider } from "@tanstack/react-router";
 import { Activity, LogOut, Moon, ShieldCheck, Stethoscope, Sun } from "lucide-react";
 import { api } from "./api";
+import { LangProvider, useLang } from "./i18n";
 import { useSession } from "./store";
 import { ThemeProvider, useTheme } from "./theme";
-import { Button, Card } from "./ui";
+import { Button } from "./ui";
 import "./styles.css";
 
 const queryClient = new QueryClient({
@@ -17,23 +18,57 @@ function Shell() {
   const user = useSession((state) => state.user);
   const clearSession = useSession((state) => state.clearSession);
   const { theme, toggleTheme } = useTheme();
+  const { lang, setLang, t } = useLang();
   return (
     <div className="min-h-screen bg-canvas text-ink dark:bg-slate-950 dark:text-white">
       <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
           <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-teal-600 text-white"><Activity size={20} /></div>
-            <div><div className="font-bold tracking-tight">CareBridge</div><div className="text-xs text-muted dark:text-slate-400">Clinical workspace</div></div>
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-teal-600 text-white">
+              <Activity size={20} />
+            </div>
+            <div>
+              <div className="font-bold tracking-tight">{t("appName")}</div>
+              <div className="text-xs text-muted dark:text-slate-400">{t("appSubtitle")}</div>
+            </div>
           </div>
           <div className="flex items-center gap-2">
-            {user && <span className="hidden items-center gap-2 rounded-full bg-slate-100 px-3 py-2 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300 sm:flex">{user.role === "Admin" ? <ShieldCheck size={15} /> : <Stethoscope size={15} />}{user.username}</span>}
-            <Button variant="ghost" className="px-3" onClick={toggleTheme} aria-label="Toggle color theme">{theme === "light" ? <Moon size={18} /> : <Sun size={18} />}</Button>
-            {user && <Button variant="ghost" className="px-3" onClick={() => { clearSession(); window.location.href = "/login"; }} aria-label="Sign out"><LogOut size={18} /></Button>}
+            {user && (
+              <span className="hidden items-center gap-2 rounded-full bg-slate-100 px-3 py-2 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300 sm:flex">
+                {user.role === "Admin" ? <ShieldCheck size={15} /> : <Stethoscope size={15} />}
+                {user.username}
+              </span>
+            )}
+            {/* Language switcher */}
+            <button
+              onClick={() => setLang(lang === "en" ? "am" : "en")}
+              title={lang === "en" ? "Switch to Amharic / አማርኛ ቀይር" : "Switch to English"}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+            >
+              {lang === "en" ? "🇪🇹 አማርኛ" : "🇬🇧 English"}
+            </button>
+            <Button variant="ghost" className="px-3" onClick={toggleTheme} aria-label={t("toggleTheme")}>
+              {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
+            </Button>
+            {user && (
+              <Button
+                variant="ghost"
+                className="px-3"
+                onClick={() => { clearSession(); window.location.href = "/login"; }}
+                aria-label={t("signOut")}
+              >
+                <LogOut size={18} />
+              </Button>
+            )}
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-7xl px-5 py-8"><Outlet /></main>
-      <footer className="mx-auto max-w-7xl px-5 pb-8 text-center text-xs text-slate-400">CareBridge MVP · Handle patient information only in accordance with your organization’s privacy policies.</footer>
+      <main className="mx-auto max-w-7xl px-5 py-8">
+        <Outlet />
+      </main>
+      <footer className="mx-auto max-w-7xl px-5 pb-8 text-center text-xs text-slate-400">
+        {t("footer")}
+      </footer>
     </div>
   );
 }
@@ -97,7 +132,15 @@ window.addEventListener("carebridge:unauthorized", () => {
 });
 
 function App() {
-  return <ThemeProvider><QueryClientProvider client={queryClient}><RouterProvider router={router} /></QueryClientProvider></ThemeProvider>;
+  return (
+    <ThemeProvider>
+      <LangProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </LangProvider>
+    </ThemeProvider>
+  );
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<React.StrictMode><App /></React.StrictMode>);
