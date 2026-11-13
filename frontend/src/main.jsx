@@ -8,6 +8,7 @@ import { LangProvider, useLang } from "./i18n";
 import { useSession } from "./store";
 import { ThemeProvider, useTheme } from "./theme";
 import { Button } from "./ui";
+import logoImg from "./asset/1.png";
 import "./styles.css";
 
 const queryClient = new QueryClient({
@@ -24,8 +25,9 @@ function Shell() {
       <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
           <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-teal-600 text-white">
-              <Activity size={20} />
+            <div className="grid h-10 w-10 place-items-center rounded-xl  ">
+              {/* <Activity size={20} /> */}
+              <img src={logoImg} alt="logo" srcset="" />
             </div>
             <div>
               <div className="font-bold tracking-tight">{t("appName")}</div>
@@ -126,7 +128,7 @@ const indexRoute = createRoute({
 const routeTree = rootRoute.addChildren([indexRoute, loginRoute, changePasswordRoute, adminRoute, psychiatristRoute, chatRoute, notesRoute]);
 const router = createRouter({ routeTree });
 
-window.addEventListener("carebridge:unauthorized", () => {
+window.addEventListener("KUECSF Counseling:unauthorized", () => {
   queryClient.clear();
   router.navigate({ to: "/login" });
 });

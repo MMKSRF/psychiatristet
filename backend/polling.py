@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 logger = logging.getLogger("telegram_polling")
-API_URL = os.getenv("CAREBRIDGE_API_URL", "http://127.0.0.1:8000").rstrip("/")
+API_URL = os.getenv("KUECSF Counseling_API_URL", "http://127.0.0.1:8000").rstrip("/")
 POLL_TIMEOUT_SECONDS = 25
 
 
@@ -109,7 +109,7 @@ async def run_polling_loop(asgi_app: Any = None) -> None:
                 if exc.request.url.host == "api.telegram.org":
                     logger.warning("Telegram returned HTTP %s. Webhook might be active.", status)
                 else:
-                    logger.warning("CareBridge API returned HTTP %s.", status)
+                    logger.warning("KUECSF Counseling API returned HTTP %s.", status)
                 await asyncio.sleep(3)
             except Exception as exc:
                 logger.warning("Telegram polling error (%s): %s", type(exc).__name__, exc)

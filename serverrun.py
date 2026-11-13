@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CareBridge Telehealth MVP - Production Server Launcher (Backend-Only)
+"""KUECSF Counseling Telehealth MVP - Production Server Launcher (Backend-Only)
 
 Runs ONLY the FastAPI backend on 0.0.0.0:8000.  The React frontend is
 served directly from the pre-built  frontend/dist/  folder — no Node.js,
@@ -62,7 +62,7 @@ def _banner(ip: str, port: int) -> None:
     masked = f"{tok[:10]}...{tok[-6:]}" if len(tok) > 16 else "[NOT SET]"
     sep = "=" * 68
     print(f"\n{sep}")
-    print("   🏥  CareBridge Telehealth — Production Server")
+    print("   🏥  KUECSF Counseling Telehealth — Production Server")
     print(sep)
     print(f"🌍  Server IP:          {ip}")
     print(f"💻  Web Dashboard:      http://{ip}:{port}")
@@ -80,7 +80,7 @@ def _banner(ip: str, port: int) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="CareBridge production server (backend only — React served from dist/)"
+        description="KUECSF Counseling production server (backend only — React served from dist/)"
     )
     parser.add_argument(
         "--ip",

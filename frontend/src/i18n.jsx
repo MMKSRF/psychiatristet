@@ -1,5 +1,5 @@
 /**
- * CareBridge – Bilingual UI  (English 🇬🇧 / አማርኛ 🇪🇹)
+ * KUECSF Counseling – Bilingual UI  (English 🇬🇧 / አማርኛ 🇪🇹)
  *
  * Usage:
  *   const { t, lang, setLang } = useLang();
@@ -15,7 +15,7 @@ import { createContext, useCallback, useContext, useState } from "react";
 const TRANSLATIONS = {
   en: {
     // ── Shell / nav ───────────────────────────────────────────────────────────
-    appName: "CareBridge",
+    appName: "KUECSF Counseling",
     appSubtitle: "Care workspace",
     signOut: "Sign out",
     toggleTheme: "Toggle color theme",
@@ -149,7 +149,7 @@ const TRANSLATIONS = {
     setPassword: "Set password",
 
     // ── Footer ────────────────────────────────────────────────────────────────
-    footer: "CareBridge · Handle user information according to your organisation's privacy policy.",
+    footer: "KUECSF Counseling · Handle user information according to your organisation's privacy policy.",
 
     // ── Misc ──────────────────────────────────────────────────────────────────
     loadingDashboard: "Loading…",
@@ -161,7 +161,7 @@ const TRANSLATIONS = {
 
   am: {
     // ── Shell / nav ───────────────────────────────────────────────────────────
-    appName: "ኬርብሪጅ",
+    appName: "KUECSF Counseling",
     appSubtitle: "የእንክብካቤ ስፍራ",
     signOut: "ውጣ",
     toggleTheme: "ጨለማ/ብሩህ ቀይር",
@@ -295,7 +295,7 @@ const TRANSLATIONS = {
     setPassword: "የይለፍ ቃል አስቀምጥ",
 
     // ── Footer ────────────────────────────────────────────────────────────────
-    footer: "ኬርብሪጅ · የተጠቃሚ መረጃን የድርጅትዎን የግላዊነት ፖሊሲ ተከትሎ ያስተዳድሩ።",
+    footer: "KUECSF Counseling· የተጠቃሚ መረጃን የድርጅትዎን የግላዊነት ፖሊሲ ተከትሎ ያስተዳድሩ።",
 
     // ── Misc ──────────────────────────────────────────────────────────────────
     loadingDashboard: "እየጫነ ነው…",
@@ -311,7 +311,7 @@ const TRANSLATIONS = {
 // ─────────────────────────────────────────────────────────────────────────────
 const LangContext = createContext(null);
 
-const STORAGE_KEY = "carebridge_ui_lang";
+const STORAGE_KEY = "KUECSF Counseling_ui_lang";
 
 export function LangProvider({ children }) {
   const [lang, setLangState] = useState(() => {

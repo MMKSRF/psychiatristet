@@ -1,4 +1,4 @@
-# CareBridge Telehealth Telegram-Web Bridge (MVP)
+# KUECSF Counseling Telehealth Telegram-Web Bridge (MVP)
 
 A complete, production-ready MVP connecting patients via a **Telegram Bot** (`@psychiatristETbot`) to psychiatrists through a secure **React (Vite) web dashboard**, managed by an **Admin Panel**.
 

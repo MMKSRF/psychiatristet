@@ -29,7 +29,7 @@ LANGUAGE_KEYBOARD = {
 REMOVE_KEYBOARD = {"remove_keyboard": True}
 
 WELCOME_TEXT = (
-    "👋 Welcome to CareBridge / እንኳን ወደ ኬርብሪጅ በደህና መጡ!\n\n"
+    "👋 Welcome to KUECSF Counseling / እንኳን ወደ KUECSF  counseling በደህና መጡ!\n\n"
     "እባክዎ የመገናኛ ቋንቋዎን ይምረጡ፦\n"
     "Please choose your preferred language:"
 )

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CareBridge Telehealth MVP - Unified Launcher
+"""KUECSF Counseling Telehealth MVP - Unified Launcher
 
 Starts the FastAPI server (with automatic embedded Telegram bot polling/webhook)
 and prints credentials, endpoints, and instructions.
@@ -20,7 +20,7 @@ def print_banner() -> None:
     masked_token = f"{bot_token[:10]}...{bot_token[-6:]}" if len(bot_token) > 16 else "[NOT SET]"
 
     print("\n" + "=" * 65)
-    print("   🏥 CareBridge Telehealth Telegram-Web Bridge (MVP)")
+    print("   🏥 KUECSF Counseling Telehealth Telegram-Web Bridge (MVP)")
     print("=" * 65)
     print(f"📡 Backend API:         http://localhost:8000")
     print(f"📚 Interactive Swagger: http://localhost:8000/docs")

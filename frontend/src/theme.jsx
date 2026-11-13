@@ -3,14 +3,14 @@ import { createContext, useContext, useMemo, useState } from "react";
 const ThemeContext = createContext(null);
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => localStorage.getItem("carebridge-theme") || "light");
+  const [theme, setTheme] = useState(() => localStorage.getItem("KUECSF Counseling-theme") || "light");
   const value = useMemo(
     () => ({
       theme,
       toggleTheme: () =>
         setTheme((current) => {
           const next = current === "light" ? "dark" : "light";
-          localStorage.setItem("carebridge-theme", next);
+          localStorage.setItem("KUECSF Counseling-theme", next);
           return next;
         }),
     }),

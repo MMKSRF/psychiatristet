@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { jwtDecode } from "jwt-decode";
 
-const storageKey = "carebridge-token";
+const storageKey = "KUECSF Counseling-token";
 
 function readSession() {
   const token = localStorage.getItem(storageKey);
@@ -37,5 +37,5 @@ export const useSession = create((set) => ({
 }));
 
 if (typeof window !== "undefined") {
-  window.addEventListener("carebridge:unauthorized", () => useSession.getState().clearSession());
+  window.addEventListener("KUECSF Counseling:unauthorized", () => useSession.getState().clearSession());
 }

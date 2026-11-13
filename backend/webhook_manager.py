@@ -121,7 +121,7 @@ def cmd_tunnel(port: int = 8000) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="CareBridge Telegram Webhook & Tunnel Manager")
+    parser = argparse.ArgumentParser(description="KUECSF Counseling Telegram Webhook & Tunnel Manager")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     subparsers.add_parser("status", help="Check current Telegram webhook status")

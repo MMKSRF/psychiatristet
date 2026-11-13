@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CareBridge Telehealth MVP - Production & Remote Server Launcher
+"""KUECSF Counseling Telehealth MVP - Production & Remote Server Launcher
 
 Starts the React frontend and FastAPI backend on separate ports, bound to
 0.0.0.0 so clients on external networks can connect via the server's public IP.
@@ -42,7 +42,7 @@ def print_server_banner(server_ip: str, port: int, frontend_port: int, reload: b
     db_rel = os.path.relpath(DB_PATH, root_dir) if DB_PATH.is_relative_to(root_dir) else str(DB_PATH)
 
     print("\n" + "=" * 70)
-    print("   🏥 CareBridge Telehealth Server - Remote & Mobile Network")
+    print("   🏥 KUECSF Counseling Telehealth Server - Remote & Mobile Network")
     print("=" * 70)
     print(f"🌍 Server Public IP:    {server_ip}")
     print(f"📱 Phone Web Dashboard: http://{server_ip}:{frontend_port}")
@@ -68,7 +68,7 @@ def print_server_banner(server_ip: str, port: int, frontend_port: int, reload: b
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="CareBridge Server Launcher for Remote / Mobile Access")
+    parser = argparse.ArgumentParser(description="KUECSF Counseling Server Launcher for Remote / Mobile Access")
     parser.add_argument(
         "--ip",
         default=os.getenv("SERVER_IP", "204.44.66.142"),
