@@ -17,7 +17,7 @@ export function PatientNotesPage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-5">
-      <Link to="/psychiatrist/dashboard" className="inline-flex items-center gap-2 text-sm font-semibold text-muted hover:text-ink dark:hover:text-white"><ArrowLeft size={16} />Back to patients</Link>
+      <Link to="/psychiatrist/dashboard" className="inline-flex items-center gap-2 text-sm font-semibold text-muted hover:text-ink dark:hover:text-white"><ArrowLeft size={16} />Back</Link>
       <PatientNotesPanel patientId={Number(patientId)} patientName={patient?.name} />
     </div>
   );

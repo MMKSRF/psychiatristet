@@ -63,7 +63,7 @@ export function ChatPage() {
   return (
     <div className="mx-auto max-w-7xl space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <Link to="/psychiatrist/dashboard" className="inline-flex items-center gap-2 text-sm font-semibold text-muted hover:text-ink dark:hover:text-white"><ArrowLeft size={16} />Back to patients</Link>
+        <Link to="/psychiatrist/dashboard" className="inline-flex items-center gap-2 text-sm font-semibold text-muted hover:text-ink dark:hover:text-white"><ArrowLeft size={16} />Back</Link>
         {patient && <Link to="/psychiatrist/notes/$patientId" params={{ patientId: String(patient.telegram_id) }} className="text-sm font-semibold text-teal-700 hover:underline dark:text-teal-300">Open notes separately</Link>}
       </div>
       {!patient && patients.isError && <p role="alert" className="rounded-xl bg-red-50 p-4 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">Could not load this patient. {patients.error.response?.data?.detail || ""}</p>}
@@ -82,25 +82,24 @@ export function ChatPage() {
               const isEditing = editingId === message.message_id;
 
               return <div key={message.message_id} className={`group flex w-full ${ownMessage ? "justify-end" : "justify-start"}`}>
-                <div className={`relative max-w-[88%] rounded-2xl px-4 py-3 sm:max-w-[82%] ${
-                  ownMessage && !isEditing 
-                    ? "rounded-br-md bg-teal-600 text-white" 
+                <div className={`relative max-w-[88%] rounded-2xl px-4 py-3 sm:max-w-[82%] ${ownMessage && !isEditing
+                    ? "rounded-br-md bg-teal-600 text-white"
                     : "rounded-bl-md border border-slate-200 bg-white text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                } ${deleted ? "italic opacity-75" : ""}`}>
+                  } ${deleted ? "italic opacity-75" : ""}`}>
                   {isEditing ? (
                     <form onSubmit={(event) => { event.preventDefault(); if (editText.trim()) edit.mutate({ messageId: message.message_id, nextText: editText }); }}>
-                      
+
                       <label className="sr-only" htmlFor={`edit-message-${message.message_id}`}>Edit message</label>
-                      <textarea 
-                        id={`edit-message-${message.message_id}`} 
-                        value={editText} 
-                        onChange={(event) => setEditText(event.target.value)} 
-                        maxLength={4000} 
-                        rows={3} 
-                        autoFocus 
-                        className="w-full min-w-52 resize-y rounded-lg border border-slate-300 bg-white p-2 text-sm leading-6 text-slate-900 outline-none placeholder:text-slate-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-400 dark:focus:border-teal-400" 
+                      <textarea
+                        id={`edit-message-${message.message_id}`}
+                        value={editText}
+                        onChange={(event) => setEditText(event.target.value)}
+                        maxLength={4000}
+                        rows={3}
+                        autoFocus
+                        className="w-full min-w-52 resize-y rounded-lg border border-slate-300 bg-white p-2 text-sm leading-6 text-slate-900 outline-none placeholder:text-slate-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-400 dark:focus:border-teal-400"
                       />
-                      
+
                       <div className="mt-2 flex justify-end gap-2">
                         <Button type="button" variant="ghost" className="px-2 py-1.5 text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700" onClick={() => { setEditingId(null); setEditText(""); }}>
                           <X size={14} />Cancel
